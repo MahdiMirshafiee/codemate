@@ -57,6 +57,14 @@ def find_file_in_tree(filename: str, root: Path):
         return partials[0].resolve()
     return None
 
+def read_file_with_lines(path: Path):
+    try:
+        with path.open('r', encoding='utf-8', errors='replace') as f:
+            lines = f.readlines()
+    except Exception as e:
+        return None, f"__ERROR_READING_FILE__: {e}"
+    print("".join([f"{i+1}: {line}" for i, line in enumerate(lines)]), None) 
+
 def process_file():
     pass
 
@@ -111,9 +119,6 @@ def cli():
         print(out)
         return
 
-    if not get_api_key():
-        print("API Key not set. Run 'codemate -config' first.")
-        sys.exit(1)
     out = process_directory(cwd, mode='debug')
     print(out)
 
