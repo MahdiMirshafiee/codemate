@@ -37,8 +37,15 @@ def call_gpt(content, mode='debug'):
 
     return completion.choices[0].message.content
 
-def process_code_inline():
-    pass
+def process_code_inline(code_str: str, mode='debug'):
+    try:
+        lines = code_str.splitlines(keepends=True)
+    except Exception as e:
+        print(f"[!] __ERROR_READING_INLINE_CODE__: {e}")
+        sys.exit(1)
+
+    payload = "".join([f"{i+1}: {line}" for i, line in enumerate(lines)])
+    return call_gpt(payload, mode)
 
 def find_file_in_tree(filename: str, root: Path):
     fileName = Path(filename)
