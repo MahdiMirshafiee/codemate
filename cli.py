@@ -76,8 +76,20 @@ def process_file(file_path: Path, mode='debug'):
     payload = f"{file_path.name}\n{codetxt}"
     return call_gpt(payload, mode)
 
-def process_directory():
-    pass
+def process_directory(directory: Path, mode='debug'):
+    files = list_code_files(directory)
+    if not files:
+        print("No code files found in directory.")
+        sys.exit(1)
+    combined = ""
+    for f in files:
+        numbered, err = read_file_with_lines(Path(f))
+        if err:
+            print(f"[!] Could not read file '{os.path.basename(f)}'")
+            continue
+        else:
+            combined += f"{os.path.basename(f)}\n{numbered}\n{'-'*20}\n"
+    return call_gpt(combined, mode)
 
 def cli():
     parser = argparse.ArgumentParser(prog='codemate', description='Codemate CLI: Ai Assistant for debug and refactor codes')
