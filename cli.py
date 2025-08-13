@@ -65,8 +65,16 @@ def read_file_with_lines(path: Path):
         return None, f"__ERROR_READING_FILE__: {e}"
     print("".join([f"{i+1}: {line}" for i, line in enumerate(lines)]), None) 
 
-def process_file():
-    pass
+def process_file(file_path: Path, mode='debug'):
+    if not file_path.exists():
+        print(f"File not found: {file_path}")
+        sys.exit(1)
+    codetxt, err = read_file_with_lines(file_path)
+    if err:
+        print(err)
+        sys.exit(1)
+    payload = f"{file_path.name}\n{codetxt}"
+    return call_gpt(payload, mode)
 
 def process_directory():
     pass
