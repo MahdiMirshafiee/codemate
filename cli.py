@@ -38,17 +38,36 @@ def call_gpt(content, mode='debug'):
 
     return completion.choices[0].message.content
 
-def find_file_in_tree():
+def process_code_inline():
     pass
+
+def find_file_in_tree(filename: str, root: Path):
+    cand = Path(filename)
+    if cand.exists():
+        return cand.resolve()
+    matches = [p for p in root.rglob('*') if p.is_file() and p.name.lower() == filename.lower()]
+    if len(matches) == 1:
+        return matches[0].resolve()
+    if len(matches) > 1:
+        matches.sort(key=lambda p: len(str(p)))
+        return matches[0].resolve()
+    partials = [p for p in root.rglob('*') if p.is_file() and filename.lower() in p.name.lower()]
+    if partials:
+        partials.sort(key=lambda p: len(str(p)))
+        return partials[0].resolve()
+    return None
+
 def process_file():
     pass
+
 def process_directory():
     pass
 
 def cli():
-    parser = argparse.ArgumentParser(prog='codemate', description='Codemate CLI: debug and refactor code')
+    parser = argparse.ArgumentParser(prog='codemate', description='Codemate CLI: Ai Assistant for debug and refactor codes')
     parser.add_argument('-r', '--refactor', action='store_true', help='Refactor the specified file (use with filename)')
     parser.add_argument('-c', '--config', action='store_true', dest='config', help='Set OpenRouter API Key (interactive)')
+    parser.add_argument('-i','--inline', help='Inline code to debug/refactor (e.g. codemate -i "print(\'hi\')")')
     parser.add_argument('filename', nargs='?', help='(optional) filename to debug/refactor (if omitted, debug current dir)')
     args = parser.parse_args()
 
@@ -61,14 +80,20 @@ def cli():
         print("API Key saved. You can now run codemate commands.")
         return
 
+    if not get_api_key():
+        print("API Key not set. Run 'codemate -config' first.")
+        sys.exit(1)
+
     cwd = Path(os.getcwd())
 
+    if args.inline:
+        code_str = args.inline  
+        mode = 'refactor' if args.refactor else 'debug'
+        out = process_code_inline(code_str, mode=mode)
+        print(out)
+        return
+
     if args.filename:
-
-        if not get_api_key():
-            print("API Key not set. Run 'codemate -config' first.")
-            sys.exit(1)
-
         candidate = None
         p = Path(args.filename)
         if p.exists():
