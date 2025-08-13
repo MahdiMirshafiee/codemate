@@ -2,7 +2,6 @@
 import argparse
 import os
 from pathlib import Path
-import click
 from openai import OpenAI
 from api_manager import get_api_key, set_api_key
 import sys
@@ -42,9 +41,9 @@ def process_code_inline():
     pass
 
 def find_file_in_tree(filename: str, root: Path):
-    cand = Path(filename)
-    if cand.exists():
-        return cand.resolve()
+    fileName = Path(filename)
+    if fileName.exists():
+        return fileName.resolve()
     matches = [p for p in root.rglob('*') if p.is_file() and p.name.lower() == filename.lower()]
     if len(matches) == 1:
         return matches[0].resolve()
@@ -62,12 +61,12 @@ def read_file_with_lines(path: Path):
         with path.open('r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
     except Exception as e:
-        return None, f"__ERROR_READING_FILE__: {e}"
+        return None, f"[!] __ERROR_READING_FILE__: {e}"
     print("".join([f"{i+1}: {line}" for i, line in enumerate(lines)]), None) 
 
 def process_file(file_path: Path, mode='debug'):
     if not file_path.exists():
-        print(f"File not found: {file_path}")
+        print(f"[!] File not found: {file_path}")
         sys.exit(1)
     codetxt, err = read_file_with_lines(file_path)
     if err:
@@ -76,8 +75,18 @@ def process_file(file_path: Path, mode='debug'):
     payload = f"{file_path.name}\n{codetxt}"
     return call_gpt(payload, mode)
 
+
+def list_dir_file(directory: Path):
+    result = []
+    for root, _, files in os.walk(directory):
+        for f in files:
+            if f.lower().endswith(SUPPORTED_EXTENSIONS):
+                result.append(os.path.join(root, f))
+    return sorted(result)
+
+
 def process_directory(directory: Path, mode='debug'):
-    files = list_code_files(directory)
+    files = list_dir_file(directory)
     if not files:
         print("No code files found in directory.")
         sys.exit(1)
@@ -102,14 +111,14 @@ def cli():
     if args.config:
         key = input("Enter your OpenRouter API Key: ").strip()
         if not key:
-            print("No API Key provided.")
+            print("[!] No API Key provided.")
             sys.exit(1)
         set_api_key(key)
         print("API Key saved. You can now run codemate commands.")
         return
 
     if not get_api_key():
-        print("API Key not set. Run 'codemate -config' first.")
+        print("[!] API Key not set. Run 'codemate -config' first.")
         sys.exit(1)
 
     cwd = Path(os.getcwd())
@@ -129,7 +138,7 @@ def cli():
         else:
             candidate = find_file_in_tree(args.filename, cwd)
         if not candidate:
-            print(f"File '{args.filename}' not found in current repository (cwd: {cwd}).")
+            print(f"[!] File '{args.filename}' not found in current repository (cwd: {cwd}).")
             sys.exit(1)
 
         if args.refactor:
