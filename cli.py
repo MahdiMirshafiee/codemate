@@ -5,6 +5,8 @@ from pathlib import Path
 from openai import OpenAI
 from api_manager import get_api_key, set_api_key
 import sys
+from rich import print
+
 
 SUPPORTED_EXTENSIONS = ('.py', '.js', '.go', '.java')
 
@@ -46,6 +48,7 @@ def process_code_inline(code_str: str, mode='debug'):
 
     payload = "".join([f"{i+1}: {line}" for i, line in enumerate(lines)])
     return call_gpt(payload, mode)
+    # return (payload)
 
 def find_file_in_tree(filename: str, root: Path):
     fileName = Path(filename)
@@ -69,7 +72,7 @@ def read_file_with_lines(path: Path):
             lines = f.readlines()
     except Exception as e:
         return None, f"[!] __ERROR_READING_FILE__: {e}"
-    print("".join([f"{i+1}: {line}" for i, line in enumerate(lines)]), None) 
+    return ("".join([f"{i+1}: {line}" for i, line in enumerate(lines)]), None) 
 
 def process_file(file_path: Path, mode='debug'):
     if not file_path.exists():
@@ -81,6 +84,7 @@ def process_file(file_path: Path, mode='debug'):
         sys.exit(1)
     payload = f"{file_path.name}\n{codetxt}"
     return call_gpt(payload, mode)
+    # return (payload)
 
 
 def list_dir_file(directory: Path):
@@ -105,14 +109,15 @@ def process_directory(directory: Path, mode='debug'):
             continue
         else:
             combined += f"{os.path.basename(f)}\n{numbered}\n{'-'*20}\n"
+    # return (combined)
     return call_gpt(combined, mode)
 
 def cli():
     parser = argparse.ArgumentParser(prog='codemate', description='Codemate CLI: Ai Assistant for debug and refactor codes')
     parser.add_argument('-r', '--refactor', action='store_true', help='Refactor the specified file (use with filename)')
     parser.add_argument('-c', '--config', action='store_true', dest='config', help='Set OpenRouter API Key (interactive)')
-    parser.add_argument('-i','--inline', help='Inline code to debug/refactor (e.g. codemate -i "print(\'hi\')")')
-    parser.add_argument('filename', nargs='?', help='(optional) filename to debug/refactor (if omitted, debug current dir)')
+    parser.add_argument('-i', '--inline', help='Inline code OR use "-" to read code from stdin (e.g. codemate -i -)')
+    parser.add_argument('filename', nargs='?', default=None, help='(optional) filename to debug/refactor (if omitted, debug current dir)')
     args = parser.parse_args()
 
     if args.config:
@@ -130,9 +135,19 @@ def cli():
 
     cwd = Path(os.getcwd())
 
-    if args.inline:
-        code_str = args.inline  
+
+    if args.inline is not None:
         mode = 'refactor' if args.refactor else 'debug'
+
+        if args.inline == '-':
+            print("[bold green]Paste your code. Finish with Ctrl+D (Linux/macOS) or Ctrl+Z (Windows) then Enter:")
+            code_str = sys.stdin.read()
+            if not code_str:
+                print("[!] No input received from stdin. Exiting.")
+                sys.exit(1)
+        else:
+            code_str = args.inline
+
         out = process_code_inline(code_str, mode=mode)
         print(out)
         return
