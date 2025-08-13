@@ -3,7 +3,7 @@ import argparse
 import os
 from pathlib import Path
 from openai import OpenAI
-from api_manager import get_api_key, set_api_key
+from api_manager import get_api_key, set_api_key, delete_config
 import sys
 from rich import print
 
@@ -118,6 +118,7 @@ def cli():
     parser.add_argument('-c', '--config', action='store_true', dest='config', help='Set OpenRouter API Key (interactive)')
     parser.add_argument('-i', '--inline', help='Inline code OR use "-" to read code from stdin (e.g. codemate -i -)')
     parser.add_argument('filename', nargs='?', default=None, help='(optional) filename to debug/refactor (if omitted, debug current dir)')
+    parser.add_argument('-d', '--delete', action='store_true', help='Delete the codemate config directory (erase API key)')
     args = parser.parse_args()
 
     if args.config:
@@ -126,15 +127,18 @@ def cli():
             print("[!] No API Key provided.")
             sys.exit(1)
         set_api_key(key)
-        print("API Key saved. You can now run codemate commands.")
+        print("[bold green]API Key saved. You can now run codemate commands.")
         return
+            
+    if args.delete:
+        delete_config()
+        return
+    
+    cwd = Path(os.getcwd())
 
     if not get_api_key():
         print("[!] API Key not set. Run 'codemate -config' first.")
         sys.exit(1)
-
-    cwd = Path(os.getcwd())
-
 
     if args.inline is not None:
         mode = 'refactor' if args.refactor else 'debug'
