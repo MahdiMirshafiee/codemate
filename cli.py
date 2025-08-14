@@ -47,8 +47,8 @@ def process_code_inline(code_str: str, mode='debug'):
         sys.exit(1)
 
     payload = "".join([f"{i+1}: {line}" for i, line in enumerate(lines)])
-    return call_gpt(payload, mode)
-    # return (payload)
+    # return call_gpt(payload, mode)
+    return (payload)
 
 def find_file_in_tree(filename: str, root: Path):
     fileName = Path(filename)
@@ -83,8 +83,8 @@ def process_file(file_path: Path, mode='debug'):
         print(err)
         sys.exit(1)
     payload = f"{file_path.name}\n{codetxt}"
-    return call_gpt(payload, mode)
-    # return (payload)
+    # return call_gpt(payload, mode)
+    return (payload)
 
 
 def list_dir_file(directory: Path):
@@ -109,26 +109,26 @@ def process_directory(directory: Path, mode='debug'):
             continue
         else:
             combined += f"{os.path.basename(f)}\n{numbered}\n{'-'*20}\n"
-    # return (combined)
-    return call_gpt(combined, mode)
+    return (combined)
+    # return call_gpt(combined, mode)
 
 def cli():
     parser = argparse.ArgumentParser(prog='codemate', description='Codemate CLI: Ai Assistant for debug and refactor codes')
     parser.add_argument('-r', '--refactor', action='store_true', help='Refactor the specified file (use with filename)')
-    parser.add_argument('-c', '--config', action='store_true', dest='config', help='Set OpenRouter API Key (interactive)')
+    parser.add_argument('-c', '--config', action='store_true', dest='config', help='Set OpenRouter API Key')
     parser.add_argument('-i', '--inline', help='Inline code OR use "-" to read code from stdin (e.g. codemate -i -)')
     parser.add_argument('filename', nargs='?', default=None, help='(optional) filename to debug/refactor (if omitted, debug current dir)')
     parser.add_argument('-d', '--delete', action='store_true', help='Delete the codemate config directory (erase API key)')
     args = parser.parse_args()
 
-    if args.config:
-        key = input("Enter your OpenRouter API Key: ").strip()
-        if not key:
-            print("[!] No API Key provided.")
-            sys.exit(1)
-        set_api_key(key)
-        print("[bold green]API Key saved. You can now run codemate commands.")
-        return
+    # if args.config:
+    #     key = input("Enter your OpenRouter API Key: ").strip()
+    #     if not key:
+    #         print("[!] No API Key provided.")
+    #         sys.exit(1)
+    #     set_api_key(key)
+    #     print("[bold green]API Key saved. You can now run codemate commands.")
+    #     return
             
     if args.delete:
         delete_config()
@@ -136,9 +136,9 @@ def cli():
     
     cwd = Path(os.getcwd())
 
-    if not get_api_key():
-        print("[!] API Key not set. Run 'codemate -config' first.")
-        sys.exit(1)
+    # if not get_api_key():
+    #     print("[!] API Key not set. Run 'codemate -config' first.")
+    #     sys.exit(1)
 
     if args.inline is not None:
         mode = 'refactor' if args.refactor else 'debug'
@@ -173,9 +173,11 @@ def cli():
             out = process_file(candidate, mode='debug')
         print(out)
         return
-
-    out = process_directory(cwd, mode='debug')
-    print(out)
+    if args.refactor:
+        print("[bold yellow] for refactor you should give me a file name")
+    else:
+        out = process_directory(cwd, mode='debug')
+        print(out)
 
 if __name__ == '__main__':
     cli()
