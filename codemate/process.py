@@ -37,7 +37,7 @@ def process_code_inline(code_str: str, mode='debug'):
     try:
         lines = code_str.splitlines(keepends=True)
     except Exception as e:
-        print(f"[!] __ERROR_READING_INLINE_CODE__: {e}")
+        print("[bold gold3][!] Could not read inline code.")
         sys.exit(1)
 
     payload = "".join([f"{i+1}: {line}" for i, line in enumerate(lines)])
