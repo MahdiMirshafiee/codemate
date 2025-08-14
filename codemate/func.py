@@ -24,7 +24,7 @@ def read_file_with_lines(path: Path):
         with path.open('r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
     except Exception as e:
-        return None, f"[!] __ERROR_READING_FILE__: {e}"
+        return None, f"[bold gold3][!] Could not read file"
     return ("".join([f"{i+1}: {line}" for i, line in enumerate(lines)]), None) 
 
 
