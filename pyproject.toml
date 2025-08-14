@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "codemate"
+version = "0.1.0"
+description = "AI Assistant CLI for debugging and refactoring code"
+authors = [{name = "Mahdi Mirshafiee", email = "mirshafieemahdi001@gmail.com"},{name = "Saleh Mirshafiee", email = "seyed82saleh@gmail.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "openai>=1.0.0",
+    "rich>=10.0.0",
+]
+
+[project.scripts]
+codemate = "codemate.cli:cli"
