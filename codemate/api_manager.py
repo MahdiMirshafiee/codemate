@@ -26,6 +26,6 @@ def get_api_key():
 def delete_config():
     if os.path.exists(CONFIG_DIR) and os.path.isdir(CONFIG_DIR):
         shutil.rmtree(CONFIG_DIR)
-        print("[bold green][!] Codemate config directory deleted successfully.")
+        print("[bold dark_green][!] Codemate config directory deleted successfully.")
     else:
-        print("[bold red][!] No Codemate config directory found to delete.")
+        print("[bold dark_red][!] No Codemate config directory found to delete.")
