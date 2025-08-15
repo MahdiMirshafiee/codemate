@@ -5,6 +5,8 @@ SUPPORTED_EXTENSIONS = ('.py', '.js', '.go', '.java')
 
 def find_file_in_tree(filename: str, root: Path):
     fileName = Path(filename)
+    if fileName.suffix.lower() not in SUPPORTED_EXTENSIONS:
+        return None
     if fileName.exists():
         return fileName.resolve()
     matches = [p for p in root.rglob('*') if p.is_file() and p.name.lower() == filename.lower()]
