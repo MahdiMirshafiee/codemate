@@ -10,10 +10,29 @@ authors = [{name = "Mahdi Mirshafiee", email = "mirshafieemahdi001@gmail.com"},{
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.8"
+keywords = ["ai", "debug", "refactor", "cli", "assistant"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Software Development :: Quality Assurance",
+]
 dependencies = [
     "openai>=1.0.0",
     "rich>=10.0.0",
 ]
+
+[project.urls]
+Repository = "https://github.com/MahdiMirshafiee/codemate"
+Issues = "https://github.com/MahdiMirshafiee/codemate/issues"
 
 [project.scripts]
 codemate = "codemate.cli:cli"
