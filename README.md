@@ -12,7 +12,7 @@ An AI-powered CLI tool that helps developers debug and refactor their code effic
 # Installation
 ### From PyPI (Recommended)
 ```bash
-pip install code-mate
+pip install codesmate
 ```
 ### From Source
 ```bash
