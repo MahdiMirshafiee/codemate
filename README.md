@@ -1,4 +1,4 @@
-# codemate
+# codesmate
 An AI-powered CLI tool that helps developers debug and refactor their code efficiently. Using OpenRouter's GPT-4o API, it analyzes source code files to identify bugs, suggest fixes, and recommend refactoring improvements across multiple programming languages.
 
 # Features
