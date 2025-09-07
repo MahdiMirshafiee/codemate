@@ -17,8 +17,7 @@ def process_directory(directory: Path, mode='debug'):
             continue
         else:
             combined += f"{os.path.basename(f)}\n{numbered}\n{'-'*20}\n"
-    return (combined)
-    # return call_gpt(combined, mode)
+    return call_gpt(combined, mode)
 
 
 def process_file(file_path: Path, mode='debug'):
@@ -30,8 +29,7 @@ def process_file(file_path: Path, mode='debug'):
         print(err)
         sys.exit(1)
     payload = f"{file_path.name}\n{codetxt}"
-    # return call_gpt(payload, mode)
-    return (payload)
+    return call_gpt(payload, mode)
 
 def process_code_inline(code_str: str, mode='debug'):
     try:
@@ -41,5 +39,4 @@ def process_code_inline(code_str: str, mode='debug'):
         sys.exit(1)
 
     payload = "".join([f"{i+1}: {line}" for i, line in enumerate(lines)])
-    # return call_gpt(payload, mode)
-    return (payload)
+    return call_gpt(payload, mode)
