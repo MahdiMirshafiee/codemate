@@ -35,4 +35,4 @@ Repository = "https://github.com/MahdiMirshafiee/codemate"
 Issues = "https://github.com/MahdiMirshafiee/codemate/issues"
 
 [project.scripts]
-codemate = "code-mate.cli:cli"
+codemate = "codemate.cli:cli"
