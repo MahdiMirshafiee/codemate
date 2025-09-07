@@ -1,18 +1,19 @@
 from openai import OpenAI
 from codemate.api_manager import get_api_key
+import sys
 
 def call_gpt(content, mode='debug'):
     apikey = get_api_key()
     client = OpenAI(
         base_url="https://openrouter.ai/api/v1",
         api_key=apikey
-        #validate api key
     )
 
     if mode == 'debug': 
-        completion = client.chat.completions.create(
-            model="openai/GPT-4o",
-            messages=[
+        try:
+            completion = client.chat.completions.create(
+                model="openai/GPT-4o",
+                messages=[
                 {
                     "role": "system",
                     "content": """
@@ -53,14 +54,18 @@ Rules:
                     "role": "user",
                     "content": f"source code:\n{content}"
                 }
-            ],
-            temperature=0,
-            max_tokens=1500,
-        )
-    else:   
-        completion = client.chat.completions.create(
-            model="openai/GPT-4o",
-            messages=[
+                ],
+                temperature=0,
+                max_tokens=1500,
+            )
+        except Exception as e:
+            print("An error occurred: ", e)
+            sys.exit(1)
+    else:  
+        try: 
+            completion = client.chat.completions.create(
+                model="openai/GPT-4o",
+                messages=[
                 {
                     "role": "system",
                     "content": """
@@ -99,9 +104,12 @@ Where:
                     "role": "user",
                     "content": f"source code:\n{content}"
                 }
-            ],
-            temperature=0,
-            max_tokens=1500,
-        )
+                ],
+                temperature=0,
+                max_tokens=1500,
+            )
+        except Exception as e:
+            print("An error occurred: ", e)
+            sys.exit(1)
 
-    return completion.choices[0].message.content
+        return completion.choices[0].message.content
