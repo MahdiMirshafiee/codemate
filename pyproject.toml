@@ -36,3 +36,6 @@ Issues = "https://github.com/MahdiMirshafiee/codemate/issues"
 
 [project.scripts]
 codemate = "codemate.cli:cli"
+
+[tool.hatch.build.targets.wheel]
+packages = ["codemate"]
