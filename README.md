@@ -96,6 +96,11 @@ options:
 
 # Examples
 <details>
+<summary>Debug All Files In Direcory</summary>
+
+![Debug All Files In Direcory](https://raw.githubusercontent.com/MahdiMirshafiee/codemate/main/pics/dir.png)
+</details>
+<details>
 <summary>Debug a Python File</summary>
 
 ![Debug a Python File](https://raw.githubusercontent.com/MahdiMirshafiee/codemate/main/pics/debug.png)
