@@ -98,19 +98,19 @@ options:
 <details>
 <summary>Debug a Python File</summary>
 
-![Debug a Python File](https://github.com/MahdiMirshafiee/codemate/main/pics/debug.png)
+![Debug a Python File](https://raw.githubusercontent.com/MahdiMirshafiee/codemate/main/pics/debug.png)
 </details>
 
 <details>
 <summary>Refactor a JavaScript File</summary>
 
-![Refactor a JavaScript File](https://github.com/MahdiMirshafiee/codemate/main/pics/refactor.png)
+![Refactor a JavaScript File](https://raw.githubusercontent.com/MahdiMirshafiee/codemate/main/pics/refactor.png)
 </details>
 
 <details>
 <summary>Inline Code Analysis</summary>
 
-![Inline Code Analysis](https://github.com/MahdiMirshafiee/codemate/main/pics/inline.png)
+![Inline Code Analysis](https://raw.githubusercontent.com/MahdiMirshafiee/codemate/main/pics/inline.png)
 </details>
 
 # Contributing
