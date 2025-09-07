@@ -8,7 +8,9 @@ from rich import print
 from codemate.process import process_code_inline, process_directory, process_file
 from codemate.func import find_file_in_tree
 
-SUPPORTED_EXTENSIONS = ('.py', '.js', '.go', '.java')
+SUPPORTED_EXTENSIONS = (".c", ".cpp", ".h", ".hpp", ".cs", ".java", ".kt", ".go", ".rs", ".py", ".ipynb", ".r", ".jl",    ".pl", ".php", ".js", ".mjs", ".ts", ".tsx", ".jsx", ".vue", ".dart", ".swift", ".rb", ".scala",
+    ".html", ".htm", ".css", ".scss", ".json", ".yaml", ".yml", ".xml", ".md", ".sh", ".bash", ".bat",    ".cmd", ".ps1", ".dockerfile", ".gitignore", ".editorconfig", ".env", ".ini", ".toml", ".cfg",
+    ".sql", ".exe", ".dll", ".so")
 
 def cli():
     parser = argparse.ArgumentParser(prog='codemate', description='Codemate CLI: Ai Assistant for debug and refactor codes')
