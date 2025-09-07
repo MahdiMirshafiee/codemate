@@ -1,6 +1,9 @@
 from pathlib import Path
 import os
-from codemate.func import SUPPORTED_EXTENSIONS
+
+SUPPORTED_EXTENSIONS = (".c", ".cpp", ".h", ".hpp", ".cs", ".java", ".kt", ".go", ".rs", ".py", ".ipynb", ".r", ".jl",    ".pl", ".php", ".js", ".mjs", ".ts", ".tsx", ".jsx", ".vue", ".dart", ".swift", ".rb", ".scala",
+    ".html", ".htm", ".css", ".scss", ".json", ".yaml", ".yml", ".xml", ".md", ".sh", ".bash", ".bat",    ".cmd", ".ps1", ".dockerfile", ".gitignore", ".editorconfig", ".env", ".ini", ".toml", ".cfg",
+    ".sql", ".exe", ".dll", ".so")
 
 def find_file_in_tree(filename: str, root: Path):
     fileName = Path(filename)
