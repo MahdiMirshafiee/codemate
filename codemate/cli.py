@@ -46,7 +46,7 @@ def cli():
         mode = 'refactor' if args.refactor else 'debug'
 
         if args.inline == '-':
-            print("[bold cyan]Paste your code. Finish with Ctrl+D (Linux/macOS) or Ctrl+Z (Windows) then Enter:")
+            print("[bold cyan]Enter your code. Finish with Ctrl+D (Linux/macOS) or Ctrl+Z (Windows) then Enter:")
             code_str = sys.stdin.read()
             if not code_str:
                 print("[bold gold3][!] No input received from stdin.")
