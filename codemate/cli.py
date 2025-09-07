@@ -55,7 +55,7 @@ def cli():
             code_str = args.inline
 
         out = process_code_inline(code_str, mode=mode)
-        print(out)
+        print(f"──────────────────────────────────────────────────────────────────────────────────────────\n{out}\n──────────────────────────────────────────────────────────────────────────────────────────")        
         return
 
     if args.filename:
@@ -78,13 +78,13 @@ def cli():
             out = process_file(candidate, mode='refactor')
         else:
             out = process_file(candidate, mode='debug')
-        print(out)
+        print(f"──────────────────────────────────────────────────────────────────────────────────────────\n{out}\n──────────────────────────────────────────────────────────────────────────────────────────")        
         return
     if args.refactor:
         print("[bold gold3] to refactor you should give a file name")
     else:
         out = process_directory(cwd, mode='debug')
-        print(out)
+        print(f"──────────────────────────────────────────────────────────────────────────────────────────\n{out}\n──────────────────────────────────────────────────────────────────────────────────────────")
 
 if __name__ == '__main__':
     cli()
