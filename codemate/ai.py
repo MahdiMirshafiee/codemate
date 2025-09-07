@@ -112,4 +112,4 @@ Where:
             print("An error occurred: ", e)
             sys.exit(1)
 
-        return completion.choices[0].message.content
+    return completion.choices[0].message.content
